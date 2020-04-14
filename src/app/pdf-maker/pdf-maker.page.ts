@@ -1,18 +1,18 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit } from '@angular/core';
 
-import "file-saver";
+import 'file-saver';
 
-const pdfFonts = require("pdfmake/build/vfs_fonts");
-const pdfMake = require("pdfmake/build/pdfmake");
-const htmlToPdfmake = require("html-to-pdfmake");
-const JSZip = require("jszip");
+const pdfFonts = require('pdfmake/build/vfs_fonts');
+const pdfMake = require('pdfmake/build/pdfmake');
+const htmlToPdfmake = require('html-to-pdfmake');
+const JSZip = require('jszip');
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
-  selector: "app-pdf-maker",
-  templateUrl: "./pdf-maker.page.html",
-  styleUrls: ["./pdf-maker.page.scss"],
+  selector: 'app-pdf-maker',
+  templateUrl: './pdf-maker.page.html',
+  styleUrls: ['./pdf-maker.page.scss'],
 })
 /** This page uses pdfMake and htmlToPdfmake as core libraries to convert html to PDF file.
  *  At the moment (27/03/2020) we can generate and download a single html as PDF.
@@ -36,11 +36,11 @@ export class PDFMAKERPage implements OnInit {
   async createPDF() {
     this.createButtonDisable = true;
     const html = await htmlToPdfmake(
-      document.getElementById("printable").innerHTML
+      document.getElementById('printable').innerHTML
     );
-    console.log("html:", html);
+    console.log('html:', html);
     let docDefinition = {
-      header: "teste",
+      header: 'teste',
       content: [html],
       footer: (currentPage) => {
         return {
@@ -72,7 +72,7 @@ export class PDFMAKERPage implements OnInit {
 
   /** Download pdfObject by pdfMake.prototype.download(~file_name~) */
   downloadPdf() {
-    this.pdfObject.download("teste.pdf");
+    this.pdfObject.download('teste.pdf');
   }
 
   async downloadPdfZip() {
@@ -81,8 +81,8 @@ export class PDFMAKERPage implements OnInit {
       zip.file(`${index}.pdf`, this.zipObject[index], { base64: true });
     }
     // zip.file("dynamic-pleading.pdf", pdf64, { base64: true });
-    zip.generateAsync({ type: "blob" }).then((content) => {
-      saveAs(content, "teste.zip");
+    zip.generateAsync({ type: 'blob' }).then((content: Blob) => {
+      saveAs(content, 'teste.zip');
     });
   }
 }
